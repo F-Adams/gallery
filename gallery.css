@@ -89,8 +89,10 @@
                 background-color: var(--paging-active-page);
             }
 
+            .first,
             .next,
-            .previous {
+            .previous,
+            .last {
                 padding: 5px 0;
                 width: 10px;
             }
