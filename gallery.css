@@ -1,14 +1,67 @@
-.gallery {
-    margin: auto;
-    width: 75%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    grid-gap: 10px;
-}
+            /* Configurable things */
+            :root {
+                /* Maximum width of thumbnail images */
+                --max-thumb-width: 250px;
+                /* Page background color */
+                --bg-color: #151515;
+                /* Paging link border color */
+                --paging-border-color: #b5b5b5;
+                /* Paging link text color */
+                --paging-link-color: #fff;
+                /* Paging link hover color */
+                --paging-hover-color: #00f;
+                /* Active page link background color */
+                --paging-active-page: #00f;
 
-.thumbnail {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    cursor: pointer;
-}
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+            }
+
+            body {
+                background-color: var(--bg-color);
+                color: #fff;
+                overflow-y: scroll;
+            }
+
+            .gallery {
+                width: 75%;
+                margin: 20px auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(var(--max-thumb-width), 1fr));
+                grid-gap: 10px;
+            }
+
+            .thumbnail {
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+                cursor: pointer;
+            }
+
+            .paging {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 10px auto;
+            }
+
+            .paging a {
+                font-size: 14px;
+                padding: 1px 10px;
+                color: var(--paging-link-color);
+                text-decoration: none;
+                border: 1px solid var(--paging-border-color);
+            }
+
+            .paging a:hover {
+                background-color: var(--paging-hover-color);
+            }
+
+            .active {
+                font-weight: bold;
+                background-color: var(--paging-active-page);
+            }

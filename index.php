@@ -13,16 +13,38 @@
     <body>
 
     <?php
-    // Get a list of image files in the current folder
-    $imageFiles = glob('*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+    // Configurable things
+    $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
+    $thumbsPerPage = 60; // Number of thumbnails to display per page
 
-    // Generate HTML for the thumbnail gallery
-    echo '<div class="gallery">';
-    foreach ($imageFiles as $imageFile) {
-        $imageName = basename($imageFile);
-        echo '<img src="' . $imageFile . '" alt="' . $imageName . '" class="thumbnail">';
+    // Get a list of image files in the current folder
+    $imageFiles = glob('*.{' . $extensions . '}', GLOB_BRACE);
+
+    // Determine the number of pages needed to display the thumbnails, based on thumbsPerPage above
+    $numPages = ceil(count($imageFiles) / $thumbsPerPage);
+    $thisPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
+    // Determine which image is the first and last image for the current page
+    $firstThumb = ($thisPage - 1) * $thumbsPerPage;
+    $lastThumb = min($firstThumb + $thumbsPerPage - 1, count($imageFiles) - 1);
+    
+    // Generate the paging links
+    echo '<div class="paging">';
+    for ($i = 1; $i <= $numPages; $i++) {
+        $activePage = ($i === $thisPage) ? 'active' : '';
+        echo '<a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a>';
     }
     echo '</div>';
+
+    // Generate the gallery HTML
+    echo '<div class="gallery">';
+    for ($i = $firstThumb; $i <= $lastThumb; $i++) {
+        $thisImage = $imageFiles[$i];
+        $imageName = basename($thisImage);
+        echo '<img src="' . $thisImage . '" alt="' . $imageName . '" class="thumbnail">';
+    }
+    echo '</div>';
+
     ?>
 
         <script defer src="gallery.js"></script>
