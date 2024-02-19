@@ -31,6 +31,8 @@
     
         // Build the page navigation bar
         echo '<header><nav><ul class="paging">';
+        echo '<li><a href="?page=1">&laquo;&laquo;</a></li>';
+
         if ($thisPage > 1) {
             echo '<li><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
         } else {
@@ -56,10 +58,11 @@
         }
 
         if ($thisPage < $numPages) {
-        echo '<li><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
+            echo '<li><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
         } else {
             echo '<li class="next">&raquo;</li>';
         }
+        echo '<li><a href="?page='. $numPages . '">&raquo;&raquo;</a></li>';
         echo '</ul></nav></header>';
 
         // Generate the gallery HTML
@@ -69,7 +72,7 @@
             $imageName = basename($thisImage);
             echo '<img src="' . $thisImage . '" alt="' . $imageName . '" class="thumbnail">';
         }
-        echo '</section>';
+        echo '</section><footer>- ' . $thisPage . ' -</footer>';
     ?>
 
         <script defer src="gallery.js"></script>

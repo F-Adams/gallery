@@ -33,8 +33,8 @@
             }
 
             .gallery {
-                width: 80vw;
-                margin: 50px auto;
+                width: 75%;
+                margin: 50px auto 30px;
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(var(--max-thumb-width), 1fr));
                 grid-gap: 10px;
@@ -97,5 +97,9 @@
 
             footer {
                 font-weight: 700;
-                width: 100%
+                width: 100%;
+                position: fixed;
+                bottom: 0;
+                text-align: center;
+                background-color: var(--nav-bg-color);
             }
