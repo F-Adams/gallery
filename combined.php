@@ -12,12 +12,19 @@
         <style>
             /* Configurable things */
             :root {
-                --max-thumb-width: 250px;           /* Maximum width of thumbnail images */
-                --bg-color: #151515;                /* Page background color */
-                --paging-border-color: #b5b5b5;     /* Paging link border color */
-                --paging-link-color: #fff;          /* Paging link text color */
-                --paging-hover-color: #00f;         /* Paging link hover color */
-                --paging-active-page: #00f;         /* Active page link background color */
+                /* Maximum width of thumbnail images */
+                --max-thumb-width: 250px;
+                /* Page background color */
+                --bg-color: #151515;
+                /* Paging link border color */
+                --paging-border-color: #b5b5b5;
+                /* Paging link text color */
+                --paging-link-color: #fff;
+                /* Paging link hover color */
+                --paging-hover-color: #00f;
+                /* Active page link background color */
+                --paging-active-page: #00f;
+
             }
 
             * {
@@ -26,7 +33,7 @@
                 font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
             }
 
-            body{
+            body {
                 background-color: var(--bg-color);
                 color: #fff;
                 overflow-y: scroll;
@@ -54,7 +61,8 @@
                 margin: 10px auto;
             }
 
-            .paging a {
+            .paging a,
+            .paging span {
                 font-size: 14px;
                 padding: 1px 10px;
                 color: var(--paging-link-color);
@@ -62,7 +70,7 @@
                 border: 1px solid var(--paging-border-color);
             }
 
-            .paging a:hover{
+            .paging a:hover {
                 background-color: var(--paging-hover-color);
             }
 
@@ -79,6 +87,7 @@
     // Configurable things
     $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
     $thumbsPerPage = 60; // Number of thumbnails to display per page
+    $numLinks = 10; // Number of pagination links to show
 
     // Get a list of image files in the current folder
     $imageFiles = glob('*.{' . $extensions . '}', GLOB_BRACE);
@@ -91,13 +100,34 @@
     $firstThumb = ($thisPage - 1) * $thumbsPerPage;
     $lastThumb = min($firstThumb + $thumbsPerPage - 1, count($imageFiles) - 1);
     
-    // Generate the paging links
+    // Gnerate the truncated paging links
+    $firstPageLink = max(1, $page - floor($numLinks / 2));
+    $lastPageLink = min($numPages, $firstPageLink + $numLinks - 1);
+
     echo '<div class="paging">';
-    for ($i = 1; $i <= $numPages; $i++) {
+    if ($thisPage > 1) {
+        echo '<a href="?page=' . ($thisPage - 1) . '">Previous</a>';
+    } else {
+        echo '<span>Previous</span>';
+    }
+    for ($i = $firstPageLink; $i <= $lastPageLink; $i++) {
         $activePage = ($i === $thisPage) ? 'active' : '';
         echo '<a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a>';
     }
+    if ($thisPage < $numPages) {
+        echo '<a href="?page=' . ($thisPage + 1) . '">Next</a>';
+    } else {
+        echo '<span>Next</span>';
+    }
     echo '</div>';
+
+    // // Generate the paging links
+    // echo '<div class="paging">';
+    // for ($i = 1; $i <= $numPages; $i++) {
+    //     $activePage = ($i === $thisPage) ? 'active' : '';
+    //     echo '<a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a>';
+    // }
+    // echo '</div>';
 
     // Generate the gallery HTML
     echo '<div class="gallery">';

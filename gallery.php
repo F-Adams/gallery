@@ -16,6 +16,7 @@
     // Configurable things
     $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
     $thumbsPerPage = 60; // Number of thumbnails to display per page
+    $numLinks = 10; // Number of pagination links to show
 
     // Get a list of image files in the current folder
     $imageFiles = glob('*.{' . $extensions . '}', GLOB_BRACE);
@@ -28,13 +29,34 @@
     $firstThumb = ($thisPage - 1) * $thumbsPerPage;
     $lastThumb = min($firstThumb + $thumbsPerPage - 1, count($imageFiles) - 1);
     
-    // Generate the paging links
+    // Gnerate the truncated paging links
+    $firstPageLink = max(1, $page - floor($numLinks / 2));
+    $lastPageLink = min($numPages, $firstPageLink + $numLinks - 1);
+
     echo '<div class="paging">';
-    for ($i = 1; $i <= $numPages; $i++) {
+    if ($thisPage > 1) {
+        echo '<a href="?page=' . ($thisPage - 1) . '">Previous</a>';
+    } else {
+        echo '<span>Previous</span>';
+    }
+    for ($i = $firstPageLink; $i <= $lastPageLink; $i++) {
         $activePage = ($i === $thisPage) ? 'active' : '';
         echo '<a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a>';
     }
+    if ($thisPage < $numPages) {
+        echo '<a href="?page=' . ($thisPage + 1) . '">Next</a>';
+    } else {
+        echo '<span>Next</span>';
+    }
     echo '</div>';
+
+    // // Generate the paging links
+    // echo '<div class="paging">';
+    // for ($i = 1; $i <= $numPages; $i++) {
+    //     $activePage = ($i === $thisPage) ? 'active' : '';
+    //     echo '<a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a>';
+    // }
+    // echo '</div>';
 
     // Generate the gallery HTML
     echo '<div class="gallery">';
