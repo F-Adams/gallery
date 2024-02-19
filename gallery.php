@@ -13,64 +13,63 @@
     <body>
 
     <?php
-    // Configurable things
-    $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
-    $thumbsPerPage = 60; // Number of thumbnails to display per page
-    $maxLinks = 10; // Number of pagination links to show
+        // Configurable things
+        $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
+        $thumbsPerPage = 60; // Number of thumbnails to display per page
+        $maxLinks = 10; // Number of pagination links to show
 
-    // Get a list of image files in the current folder
-    $imageFiles = glob('*.{' . $extensions . '}', GLOB_BRACE);
+        // Get a list of image files in the current folder
+        $imageFiles = glob('*.{' . $extensions . '}', GLOB_BRACE);
 
-    // Determine the number of pages needed to display the thumbnails, based on thumbsPerPage above
-    $numPages = ceil(count($imageFiles) / $thumbsPerPage);
-    $thisPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        // Determine the number of pages needed to display the thumbnails, based on thumbsPerPage above
+        $numPages = ceil(count($imageFiles) / $thumbsPerPage);
+        $thisPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
-    // Determine which image is the first and last image for the current page
-    $firstThumb = ($thisPage - 1) * $thumbsPerPage;
-    $lastThumb = min($firstThumb + $thumbsPerPage - 1, count($imageFiles) - 1);
+        // Determine which image is the first and last image for the current page
+        $firstThumb = ($thisPage - 1) * $thumbsPerPage;
+        $lastThumb = min($firstThumb + $thumbsPerPage - 1, count($imageFiles) - 1);
     
-    // Build the page navigation bar
-    echo '<nav><ul class="paging">';
-    if ($thisPage > 1) {
-        echo '<li><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
-    } else {
-        echo '<li class="previous">&laquo;</li>';
-    }
+        // Build the page navigation bar
+        echo '<header><nav><ul class="paging">';
+        if ($thisPage > 1) {
+            echo '<li><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
+        } else {
+            echo '<li class="previous">&laquo;</li>';
+        }
 
-    $linkRange = floor($maxLinks / 2);
-    $firstPage = max(1, $thisPage - $linkRange);
-    $lastPage = min($numPages, $firstPage + $maxLinks - 1);
-
-    // Determine the page range to show in the navbar
-    if ($lastPage - $firstPage + 1 < $maxLinks) {
-        $firstPage = max(1, $lastPage - $maxLinks + 1);
-    }
-    if ($lastPage - $firstPage + 1 < $maxLinks) {
+        $linkRange = floor($maxLinks / 2);
+        $firstPage = max(1, $thisPage - $linkRange);
         $lastPage = min($numPages, $firstPage + $maxLinks - 1);
-    }
 
-    // Build the links to each page
-    for ($i = $firstPage; $i <= $lastPage; $i++) {
-        $activePage = (intVal($i) === $thisPage) ? 'active' : '';
-        echo '<li><a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a></li>';
-    }
+        // Determine the page range to show in the navbar
+        if ($lastPage - $firstPage + 1 < $maxLinks) {
+            $firstPage = max(1, $lastPage - $maxLinks + 1);
+        }
+        if ($lastPage - $firstPage + 1 < $maxLinks) {
+            $lastPage = min($numPages, $firstPage + $maxLinks - 1);
+        }
 
-    if ($thisPage < $numPages) {
+        // Build the links to each page
+        for ($i = $firstPage; $i <= $lastPage; $i++) {
+            $activePage = (intVal($i) === $thisPage) ? 'active' : '';
+            echo '<li><a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a></li>';
+        }
+
+        if ($thisPage < $numPages) {
         echo '<li><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
-    } else {
-        echo '<li class="next">&raquo;</li>';
-    }
-    echo '</ul></nav>';
+        } else {
+            echo '<li class="next">&raquo;</li>';
+        }
+        echo '</ul></nav></header>';
 
-    // Generate the gallery HTML
-    echo '<section class="gallery">';
-    for ($i = $firstThumb; $i <= $lastThumb; $i++) {
-        $thisImage = $imageFiles[$i];
-        $imageName = basename($thisImage);
-        echo '<img src="' . $thisImage . '" alt="' . $imageName . '" class="thumbnail">';
-    }
-    echo '</section>';
-
+        // Generate the gallery HTML
+        echo '<section class="gallery">';
+        for ($i = $firstThumb; $i <= $lastThumb; $i++) {
+            $thisImage = $imageFiles[$i];
+            $imageName = basename($thisImage);
+            echo '<img src="' . $thisImage . '" alt="' . $imageName . '" class="thumbnail">';
+        }
+        echo '</section>';
     ?>
 
         <script defer src="gallery.js"></script>
