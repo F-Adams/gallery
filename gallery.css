@@ -4,6 +4,8 @@
                 --max-thumb-width: 250px;
                 /* Page background color */
                 --bg-color: #151515;
+                /* Paging navbar background color */
+                --nav-bg-color: #2b2b2b;
                 /* Paging link border color */
                 --paging-border-color: #b5b5b5;
                 /* Paging link text color */
@@ -12,10 +14,13 @@
                 --paging-hover-color: #00f;
                 /* Active page link background color */
                 --paging-active-page: #00b;
+                /* Inactive page link background color */
+                --paging-inactive-page: #151515;
 
             }
 
             * {
+                box-sizing: border-box;
                 margin: 0;
                 padding: 0;
                 font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
@@ -28,8 +33,8 @@
             }
 
             .gallery {
-                width: 75%;
-                margin: 20px auto;
+                width: 80vw;
+                margin: 50px auto;
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(var(--max-thumb-width), 1fr));
                 grid-gap: 10px;
@@ -42,27 +47,55 @@
                 cursor: pointer;
             }
 
-            .paging {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 10px auto;
+            nav {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                text-align: center;
+                padding: 5px 0;
+                background-color: var(--nav-bg-color);
             }
 
-            .paging a,
-            .paging span {
-                font-size: 14px;
-                padding: 1px 10px;
-                color: var(--paging-link-color);
-                text-decoration: none;
+            .paging {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: inline-block;
+            }
+
+            .paging li {
+                display: inline-block;
+                margin-right: 5px;
+                width: 30px;
+                background-color: var(--paging-inactive-page);
                 border: 1px solid var(--paging-border-color);
             }
 
-            .paging a:hover {
+            .paging li a {
+                display: block;
+                padding: 5px 0;
+                width: 100%;
+                text-decoration: none;
+                color: var(--paging-link-color);
+
+            }
+
+            .paging li a:hover {
                 background-color: var(--paging-hover-color);
             }
 
             .active {
                 font-weight: bold;
                 background-color: var(--paging-active-page);
+            }
+
+            .next,
+            .previous {
+                padding: 5px 0;
+                width: 10px;
+            }
+
+            footer {
+                font-weight: 700;
+                width: 100%
             }
