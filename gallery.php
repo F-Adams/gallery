@@ -29,9 +29,9 @@
     $firstThumb = ($thisPage - 1) * $thumbsPerPage;
     $lastThumb = min($firstThumb + $thumbsPerPage - 1, count($imageFiles) - 1);
     
-    // Gnerate the truncated paging links
-    $firstPageLink = max(1, $page - floor($numLinks / 2));
-    $lastPageLink = min($numPages, $firstPageLink + $numLinks - 1);
+    // // Gnerate the truncated paging links
+    // $firstPageLink = max(1, $page - floor($numLinks / 2));
+    // $lastPageLink = min($numPages, $firstPageLink + $numLinks - 1);
 
     echo '<div class="paging">';
     if ($thisPage > 1) {
@@ -39,24 +39,30 @@
     } else {
         echo '<span>Previous</span>';
     }
+
+    $linkRange = floor($numLinks / 2);
+    $firstPageLink = max(1, $thisPage - $linkRange);
+    $lastPageLink = min($numPages, $firstPageLink + $numLinks - 1);
+
+    // Adjust firstPageLink and lastPageLink if they're near the beginning or end of the paging range
+    if ($lastPageLink - $firstPageLink + 1 < $numLinks) {
+        $firstPageLink = max(1, $lastPageLink - $numLinks + 1);
+    }
+    if ($lastPageLink - $firstPageLink + 1 < $numLinks) {
+        $lastPageLink = min($numPages, $firstPageLink + $numLinks - 1);
+    }
+
     for ($i = $firstPageLink; $i <= $lastPageLink; $i++) {
         $activePage = ($i === $thisPage) ? 'active' : '';
         echo '<a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a>';
     }
+
     if ($thisPage < $numPages) {
         echo '<a href="?page=' . ($thisPage + 1) . '">Next</a>';
     } else {
         echo '<span>Next</span>';
     }
     echo '</div>';
-
-    // // Generate the paging links
-    // echo '<div class="paging">';
-    // for ($i = 1; $i <= $numPages; $i++) {
-    //     $activePage = ($i === $thisPage) ? 'active' : '';
-    //     echo '<a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a>';
-    // }
-    // echo '</div>';
 
     // Generate the gallery HTML
     echo '<div class="gallery">';
