@@ -10,13 +10,13 @@
         <link rel="stylesheet" href="gallery.css">
 
         <style>
-             /* Configurable things */
-             :root {
+            /* Configurable things */
+            :root {
                 /* Maximum width of thumbnail images */
                 --max-thumb-width: 250px;
                 /* Page background color */
                 --bg-color: #151515;
-                /* Paging navbar background color */
+                /* Header and footer background color */
                 --nav-bg-color: #2b2b2b;
                 /* Paging link border color */
                 --paging-border-color: #b5b5b5;
@@ -45,8 +45,8 @@
             }
 
             .gallery {
-                width: 80vw;
-                margin: 50px auto;
+                width: 75%;
+                margin: 50px auto 30px;
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(var(--max-thumb-width), 1fr));
                 grid-gap: 10px;
@@ -59,7 +59,7 @@
                 cursor: pointer;
             }
 
-            nav {
+            header {
                 position: fixed;
                 top: 0;
                 width: 100%;
@@ -101,15 +101,21 @@
                 background-color: var(--paging-active-page);
             }
 
+            .first,
             .next,
-            .previous {
+            .previous,
+            .last {
                 padding: 5px 0;
                 width: 10px;
             }
 
             footer {
                 font-weight: 700;
-                width: 100%
+                width: 100%;
+                position: fixed;
+                bottom: 0;
+                text-align: center;
+                background-color: var(--nav-bg-color);
             }
         </style>
     </head>
@@ -117,63 +123,77 @@
     <body>
 
     <?php
-    // Configurable things
-    $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
-    $thumbsPerPage = 60; // Number of thumbnails to display per page
-    $maxLinks = 10; // Number of pagination links to show
+        // Configurable things
+        $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
+        $thumbsPerPage = 60; // Number of thumbnails to display per page
+        $maxLinks = 10; // Number of pagination links to show
 
-    // Get a list of image files in the current folder
-    $imageFiles = glob('*.{' . $extensions . '}', GLOB_BRACE);
+        // Get a list of image files in the current folder
+        $imageFiles = glob('*.{' . $extensions . '}', GLOB_BRACE);
 
-    // Determine the number of pages needed to display the thumbnails, based on thumbsPerPage above
-    $numPages = ceil(count($imageFiles) / $thumbsPerPage);
-    $thisPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        // Determine the number of pages needed to display the thumbnails, based on thumbsPerPage above
+        $numPages = ceil(count($imageFiles) / $thumbsPerPage);
+        $thisPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
-    // Determine which image is the first and last image for the current page
-    $firstThumb = ($thisPage - 1) * $thumbsPerPage;
-    $lastThumb = min($firstThumb + $thumbsPerPage - 1, count($imageFiles) - 1);
+        // Determine which image is the first and last image for the current page
+        $firstThumb = ($thisPage - 1) * $thumbsPerPage;
+        $lastThumb = min($firstThumb + $thumbsPerPage - 1, count($imageFiles) - 1);
     
-    // Build the page navigation bar
-    echo '<nav><ul class="paging">';
-    if ($thisPage > 1) {
-        echo '<li><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
-    } else {
-        echo '<li class="previous">&laquo;</li>';
-    }
+        // Build the page navigation bar
+        echo '<header><nav><ul class="paging">';
 
-    $linkRange = floor($maxLinks / 2);
-    $firstPage = max(1, $thisPage - $linkRange);
-    $lastPage = min($numPages, $firstPage + $maxLinks - 1);
+        if ($thisPage !== 1) {
+            echo '<li><a href="?page=1">&laquo;&laquo;</a></li>';
+        } else {
+            echo '<li class="first">&laquo;&laquo;</li>';
+        }
+        
+        if ($thisPage > 1) {
+            echo '<li><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
+        } else {
+            echo '<li class="previous">&laquo;</li>';
+        }
 
-    // Determine the page range to show in the navbar
-    if ($lastPage - $firstPage + 1 < $maxLinks) {
-        $firstPage = max(1, $lastPage - $maxLinks + 1);
-    }
-    if ($lastPage - $firstPage + 1 < $maxLinks) {
+        $linkRange = floor($maxLinks / 2);
+        $firstPage = max(1, $thisPage - $linkRange);
         $lastPage = min($numPages, $firstPage + $maxLinks - 1);
-    }
 
-    // Build the links to each page
-    for ($i = $firstPage; $i <= $lastPage; $i++) {
-        $activePage = (intVal($i) === $thisPage) ? 'active' : '';
-        echo '<li><a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a></li>';
-    }
+        // Determine the page range to show in the navbar
+        if ($lastPage - $firstPage + 1 < $maxLinks) {
+            $firstPage = max(1, $lastPage - $maxLinks + 1);
+        }
+        if ($lastPage - $firstPage + 1 < $maxLinks) {
+            $lastPage = min($numPages, $firstPage + $maxLinks - 1);
+        }
 
-    if ($thisPage < $numPages) {
-        echo '<li><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
-    } else {
-        echo '<li class="next">&raquo;</li>';
-    }
-    echo '</ul></nav>';
+        // Build the links to each page
+        for ($i = $firstPage; $i <= $lastPage; $i++) {
+            $activePage = (intVal($i) === $thisPage) ? 'active' : '';
+            echo '<li><a href="?page=' . $i . '" class="' . $activePage . '">' . $i . '</a></li>';
+        }
 
-    // Generate the gallery HTML
-    echo '<section class="gallery">';
-    for ($i = $firstThumb; $i <= $lastThumb; $i++) {
-        $thisImage = $imageFiles[$i];
-        $imageName = basename($thisImage);
-        echo '<img src="' . $thisImage . '" alt="' . $imageName . '" class="thumbnail">';
-    }
-    echo '</section>';
+        if ($thisPage < $numPages) {
+            echo '<li><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
+        } else {
+            echo '<li class="next">&raquo;</li>';
+        }
+
+        if ($thisPage < $lastPage) {
+            echo '<li><a href="?page='. $numPages . '">&raquo;&raquo;</a></li>';
+        } else {
+            echo '<li class="last">&raquo;&raquo;</li>';
+        }
+
+        echo '</ul></nav></header>';
+
+        // Generate the gallery HTML
+        echo '<section class="gallery">';
+        for ($i = $firstThumb; $i <= $lastThumb; $i++) {
+            $thisImage = $imageFiles[$i];
+            $imageName = basename($thisImage);
+            echo '<img src="' . $thisImage . '" alt="' . $imageName . '" class="thumbnail">';
+        }
+        echo '</section><footer>- ' . $thisPage . ' -</footer>';
     ?>
 
     <script>
