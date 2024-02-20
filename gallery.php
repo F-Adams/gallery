@@ -25,6 +25,11 @@
         $numPages = ceil(count($imageFiles) / $thumbsPerPage);
         $thisPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
+        // Make sure the page number is valid
+        if ($thisPage < 1 || $thisPage > $numPages) {
+            $thisPage = 1;
+        }
+
         // Determine which image is the first and last image for the current page
         $firstThumb = ($thisPage - 1) * $thumbsPerPage;
         $lastThumb = min($firstThumb + $thumbsPerPage - 1, count($imageFiles) - 1);
