@@ -105,3 +105,33 @@
                 text-align: center;
                 background-color: var(--nav-bg-color);
             }
+
+            /* Media Queries */
+            @media screen and (max-width: 600px) {
+                .gallery {
+                    margin: 40px auto 30px;
+                }
+
+                .paging {
+                    font-size: .75rem;
+                }
+
+                .paging li {
+                    width: 25px;
+                }
+
+                .paging li a {
+                    padding: 3px 0;
+                }
+
+                .first,
+                .next,
+                .previous,
+                .last {
+                    padding: 3px 0;
+                }
+
+                .paging li.responsive {
+                    display: none;
+                }
+            }

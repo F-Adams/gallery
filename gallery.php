@@ -44,9 +44,9 @@
         }
         
         if ($thisPage > 1) {
-            echo '<li><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
+            echo '<li class="responsive"><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
         } else {
-            echo '<li class="previous">&laquo;</li>';
+            echo '<li class="responsive previous">&laquo;</li>';
         }
 
         $linkRange = floor($maxLinks / 2);
@@ -68,9 +68,9 @@
         }
 
         if ($thisPage < $numPages) {
-            echo '<li><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
+            echo '<li class="responsive"><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
         } else {
-            echo '<li class="next">&raquo;</li>';
+            echo '<li class="responsive next">&raquo;</li>';
         }
 
         if ($thisPage < $lastPage) {
