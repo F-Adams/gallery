@@ -117,6 +117,36 @@
                 text-align: center;
                 background-color: var(--nav-bg-color);
             }
+
+            /* Media Queries */
+            @media screen and (max-width: 600px) {
+                .gallery {
+                    margin: 40px auto 30px;
+                }
+
+                .paging {
+                    font-size: .75rem;
+                }
+
+                .paging li {
+                    width: 25px;
+                }
+
+                .paging li a {
+                    padding: 3px 0;
+                }
+
+                .first,
+                .next,
+                .previous,
+                .last {
+                    padding: 3px 0;
+                }
+
+                .paging li.responsive {
+                    display: none;
+                }
+            }
         </style>
     </head>
 
@@ -125,7 +155,7 @@
     <?php
         // Configurable things
         $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
-        $thumbsPerPage = 60; // Number of thumbnails to display per page
+        $thumbsPerPage = 50; // Number of thumbnails to display per page
         $maxLinks = 10; // Number of pagination links to show
 
         // Get a list of image files in the current folder
@@ -134,6 +164,11 @@
         // Determine the number of pages needed to display the thumbnails, based on thumbsPerPage above
         $numPages = ceil(count($imageFiles) / $thumbsPerPage);
         $thisPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
+        // Make sure the page number is valid
+        if ($thisPage < 1 || $thisPage > $numPages) {
+            $thisPage = 1;
+        }
 
         // Determine which image is the first and last image for the current page
         $firstThumb = ($thisPage - 1) * $thumbsPerPage;
@@ -149,9 +184,9 @@
         }
         
         if ($thisPage > 1) {
-            echo '<li><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
+            echo '<li class="responsive"><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
         } else {
-            echo '<li class="previous">&laquo;</li>';
+            echo '<li class="responsive previous">&laquo;</li>';
         }
 
         $linkRange = floor($maxLinks / 2);
@@ -173,9 +208,9 @@
         }
 
         if ($thisPage < $numPages) {
-            echo '<li><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
+            echo '<li class="responsive"><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
         } else {
-            echo '<li class="next">&raquo;</li>';
+            echo '<li class="responsive next">&raquo;</li>';
         }
 
         if ($thisPage < $lastPage) {
