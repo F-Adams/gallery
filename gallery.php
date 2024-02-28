@@ -17,9 +17,10 @@
         $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
         $thumbsPerPage = 50; // Number of thumbnails to display per page
         $maxLinks = 10; // Number of pagination links to show
+        $imageFolder = "images"; // Folder containing image files
 
         // Get a list of image files in the current folder
-        $imageFiles = glob('*.{' . $extensions . '}', GLOB_BRACE);
+        $imageFiles = glob($imageFolder . '/*.{' . $extensions . '}', GLOB_BRACE);
 
         // Determine the number of pages needed to display the thumbnails, based on thumbsPerPage above
         $numPages = ceil(count($imageFiles) / $thumbsPerPage);
