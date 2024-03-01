@@ -5,6 +5,7 @@ $thumbsFolder = 'thumbs';               // Destination folder for thumbnail imag
 $extensions = "jpg,jpeg,png,gif";       // Supported image file extensions
 $maxThumbWidth = 250;                   // Maximum thumbnail width, in pixels
 $thumbPrefix = "thumbnail_";            // Prefix to add to thumbnail image file names
+set_time_limit(300);                    // Set the execution time limit for this script to 5 minutes
 
 // Get list of image files in the source folder
 $imageFiles = glob($imagesFolder . '/*.{' . $extensions . '}', GLOB_BRACE);
