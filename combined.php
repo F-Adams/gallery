@@ -21,14 +21,19 @@
                 /* Paging link border color */
                 --paging-border-color: #b5b5b5;
                 /* Paging link text color */
-                --paging-link-color: #fff;
+                --paging-link-color: #ffffff;
                 /* Paging link hover color */
                 --paging-hover-color: #00f;
                 /* Active page link background color */
                 --paging-active-page: #00b;
                 /* Inactive page link background color */
                 --paging-inactive-page: #151515;
-
+                /* Tooltip background color */
+                --tooltip-background: #ffface;
+                /* Tooltip text color */
+                --tooltip-text-color: #000;
+                /* Tooltip border color */
+                --tooltip-border-color: #000;
             }
 
             * {
@@ -109,6 +114,35 @@
                 width: 10px;
             }
 
+            .tip {
+                position: relative;
+                display: inline-block;
+            }
+
+            .tip .tipText {
+                visibility: hidden;
+                width: 70px;
+                top: 100%;
+                left: 25%;
+                margin-top: 10px;
+                margin-left: -35px;
+                background-color: var(--tooltip-background);
+                color: var(--tooltip-text-color);
+                text-align: center;
+                border: 1px solid var(--tooltip-border-color);
+                border-radius: 5px;
+                position: absolute;
+                z-index: 1;
+                opacity: 0;
+                transition: opacity .5s;
+            }
+
+            .tip:hover .tipText {
+                visibility: visible;
+                opacity: 1;
+                padding: 2px 0 3px;
+            }
+
             footer {
                 font-weight: 700;
                 width: 100%;
@@ -154,12 +188,15 @@
 
     <?php
         // Configurable things
-        $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
-        $thumbsPerPage = 50; // Number of thumbnails to display per page
-        $maxLinks = 10; // Number of pagination links to show
+        $extensions = "jpg,jpeg,png,gif";       // Supported image file extensions
+        $thumbsPerPage = 50;                    // Number of thumbnails to display per page
+        $maxLinks = 10;                         // Number of pagination links to show
+        $imageFolder = "images";                // Folder containing full sized image files
+        $thumbFolder = "thumbs";                // Folder containing scaled thumbnail images
+        $thumbPrefix = "thumbnail_";            // Prefix added to thumbnail image file names
 
-        // Get a list of image files in the current folder
-        $imageFiles = glob('*.{' . $extensions . '}', GLOB_BRACE);
+        // Get a list of thumbnail files in the folder
+        $imageFiles = glob($thumbFolder . '/*.{' . $extensions . '}', GLOB_BRACE);
 
         // Determine the number of pages needed to display the thumbnails, based on thumbsPerPage above
         $numPages = ceil(count($imageFiles) / $thumbsPerPage);
@@ -178,13 +215,13 @@
         echo '<header><nav><ul class="paging">';
 
         if ($thisPage !== 1) {
-            echo '<li><a href="?page=1">&laquo;&laquo;</a></li>';
+            echo '<li class="tip"><span class="tipText">First</span><a href="?page=1">&laquo;&laquo;</a></li>';
         } else {
             echo '<li class="first">&laquo;&laquo;</li>';
         }
         
         if ($thisPage > 1) {
-            echo '<li class="responsive"><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
+            echo '<li class="tip responsive"><span class="tipText">Previous</span><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
         } else {
             echo '<li class="responsive previous">&laquo;</li>';
         }
@@ -208,13 +245,13 @@
         }
 
         if ($thisPage < $numPages) {
-            echo '<li class="responsive"><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
+            echo '<li class="tip responsive"><span class="tipText">Next</span><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
         } else {
             echo '<li class="responsive next">&raquo;</li>';
         }
 
         if ($thisPage < $lastPage) {
-            echo '<li><a href="?page='. $numPages . '">&raquo;&raquo;</a></li>';
+            echo '<li class="tip"><span class="tipText">Last</span><a href="?page='. $numPages . '">&raquo;&raquo;</a></li>';
         } else {
             echo '<li class="last">&raquo;&raquo;</li>';
         }
@@ -225,8 +262,20 @@
         echo '<section class="gallery">';
         for ($i = $firstThumb; $i <= $lastThumb; $i++) {
             $thisImage = $imageFiles[$i];
-            $imageName = basename($thisImage);
-            echo '<img src="' . $thisImage . '" alt="' . $imageName . '" class="thumbnail">';
+
+            // The ALT attribute in the HTML <img> tag is used to send the name and path
+            // of the full sized image to the JavaScript 'window.open' function. This is
+            // probably not an ideal solution but it works!
+            // Determine the filename of this thumbnail
+            $thumbName = basename($thisImage);
+
+            // Strip the prefix that was added to the file name
+            $imageName = str_replace($thumbPrefix, '', $thumbName);
+
+            // Build the path to the fullsize image
+            $imagePath = $imageFolder . '/' . $imageName;
+
+            echo '<img src="' . $thisImage . '" alt="' . $imagePath . '" class="thumbnail">';
         }
         echo '</section><footer>- ' . $thisPage . ' -</footer>';
     ?>
@@ -239,9 +288,8 @@
 
             thumbnails.forEach(thumbnail => {
                 thumbnail.addEventListener('click', function () {
-                    const imagePath = this.src;
-                    const imageName = this.alt;
-                    window.open(imagePath, imageName, `width=${popupWidth}, height=${popupHeight}`);
+                    const imageToView = this.alt;
+                    window.open(imageToView, '', `width=${popupWidth}, height=${popupHeight}`);
                 });
             });
         });
