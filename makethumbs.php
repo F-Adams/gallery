@@ -11,14 +11,11 @@ $imageFiles = glob($imagesFolder . '/*.{' . $extensions . '}', GLOB_BRACE);
 
 // Generate thumbnails for each image file
 foreach ($imageFiles as $orgImage) {
-    // $orgImage = $imagesFolder . '/' . $imageFile;
-
     // Get the original image details
     $orgInfo = getimagesize($orgImage);
     $orgWidth = $orgInfo[0];
     $orgHeight = $orgInfo[1];
     $orgType = $orgInfo['mime'];
-
 
     // Create image resource based on file type
     switch ($orgType) {

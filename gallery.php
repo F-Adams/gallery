@@ -21,10 +21,8 @@
         $thumbFolder = "thumbs";                // Folder containing scaled thumbnail images
         $thumbPrefix = "thumbnail_";            // Prefix to add to thumbnail image file names
 
-        // Get a list of image files in the current folder
-        // TODO:    This needs to be changed to get the thumbnail images in the thumbnail folder
-        //          instead of getting the full sized images.
-        $imageFiles = glob($imageFolder . '/*.{' . $extensions . '}', GLOB_BRACE);
+        // Get a list of thumbnail files in the folder
+        $imageFiles = glob($thumbFolder . '/*.{' . $extensions . '}', GLOB_BRACE);
 
         // Determine the number of pages needed to display the thumbnails, based on thumbsPerPage above
         $numPages = ceil(count($imageFiles) / $thumbsPerPage);
