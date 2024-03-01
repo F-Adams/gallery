@@ -97,12 +97,12 @@
                 width: 10px;
             }
 
-            .tooltip {
+            .tip {
                 position: relative;
                 display: inline-block;
             }
 
-            .tooltip .tooltiptext {
+            .tip .tipText {
                 visibility: hidden;
                 width: 70px;
                 top: 100%;
@@ -113,12 +113,17 @@
                 color: #000;
                 text-align: center;
                 border: 1px solid black;
+                border-radius: 5px;
                 position: absolute;
                 z-index: 1;
+                opacity: 0;
+                transition: opacity .5s;
             }
 
-            .tooltip:hover .tooltiptext {
+            .tip:hover .tipText {
                 visibility: visible;
+                opacity: 1;
+                padding: 2px 0 3px;
             }
 
             footer {

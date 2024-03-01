@@ -43,13 +43,13 @@
         echo '<header><nav><ul class="paging">';
 
         if ($thisPage !== 1) {
-            echo '<li class="tooltip"><span class="tooltiptext">First</span><a href="?page=1">&laquo;&laquo;</a></li>';
+            echo '<li class="tip"><span class="tipText">First</span><a href="?page=1">&laquo;&laquo;</a></li>';
         } else {
             echo '<li class="first">&laquo;&laquo;</li>';
         }
         
         if ($thisPage > 1) {
-            echo '<li class="tooltip responsive"><span class="tooltiptext">Previous</span><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
+            echo '<li class="tip responsive"><span class="tipText">Previous</span><a href="?page=' . ($thisPage - 1) . '">&laquo;</a></li>';
         } else {
             echo '<li class="responsive previous">&laquo;</li>';
         }
@@ -73,13 +73,13 @@
         }
 
         if ($thisPage < $numPages) {
-            echo '<li class="tooltip responsive"><span class="tooltiptext">Next</span><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
+            echo '<li class="tip responsive"><span class="tipText">Next</span><a href="?page=' . ($thisPage + 1) . '">&raquo;</a></li>';
         } else {
             echo '<li class="responsive next">&raquo;</li>';
         }
 
         if ($thisPage < $lastPage) {
-            echo '<li class="tooltip"><span class="tooltiptext">Last</span><a href="?page='. $numPages . '">&raquo;&raquo;</a></li>';
+            echo '<li class="tip"><span class="tipText">Last</span><a href="?page='. $numPages . '">&raquo;&raquo;</a></li>';
         } else {
             echo '<li class="last">&raquo;&raquo;</li>';
         }
