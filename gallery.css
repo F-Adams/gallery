@@ -9,7 +9,7 @@
                 /* Paging link border color */
                 --paging-border-color: #b5b5b5;
                 /* Paging link text color */
-                --paging-link-color: #fff;
+                --paging-link-color: #ffffff;
                 /* Paging link hover color */
                 --paging-hover-color: #00f;
                 /* Active page link background color */
@@ -95,6 +95,30 @@
             .last {
                 padding: 5px 0;
                 width: 10px;
+            }
+
+            .tooltip {
+                position: relative;
+                display: inline-block;
+            }
+
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 70px;
+                top: 100%;
+                left: 25%;
+                margin-top: 10px;
+                margin-left: -35px;
+                background-color: #d5d5d5;
+                color: #000;
+                text-align: center;
+                border: 1px solid black;
+                position: absolute;
+                z-index: 1;
+            }
+
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
             }
 
             footer {
