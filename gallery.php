@@ -15,7 +15,7 @@
     <?php
         // Configurable things
         $extensions = "jpg,jpeg,png,gif";       // Supported image file extensions
-        $thumbsPerPage = 25;                    // Number of thumbnails to display per page
+        $thumbsPerPage = 50;                    // Number of thumbnails to display per page
         $maxLinks = 10;                         // Number of pagination links to show
         $imageFolder = "images";                // Folder containing full sized image files
         $thumbFolder = "thumbs";                // Folder containing scaled thumbnail images
