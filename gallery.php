@@ -14,12 +14,12 @@
 
     <?php
         // Configurable things
-        $extensions = "jpg,jpeg,png,gif"; // Supported image file extensions
-        $thumbsPerPage = 50; // Number of thumbnails to display per page
-        $maxLinks = 10; // Number of pagination links to show
-        $imageFolder = "images"; // Folder containing full sized image files
-        $thumbFolder = "thumbs"; // Folder containing scaled thumbnail images
-        $thumbSuffix = "_thumb"; // Suffix to add to thumbnail image file names
+        $extensions = "jpg,jpeg,png,gif";       // Supported image file extensions
+        $thumbsPerPage = 25;                    // Number of thumbnails to display per page
+        $maxLinks = 10;                         // Number of pagination links to show
+        $imageFolder = "images";                // Folder containing full sized image files
+        $thumbFolder = "thumbs";                // Folder containing scaled thumbnail images
+        $thumbPrefix = "thumbnail_";            // Prefix to add to thumbnail image file names
 
         // Get a list of image files in the current folder
         // TODO:    This needs to be changed to get the thumbnail images in the thumbnail folder
