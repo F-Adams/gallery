@@ -16,7 +16,12 @@
                 --paging-active-page: #00b;
                 /* Inactive page link background color */
                 --paging-inactive-page: #151515;
-
+                /* Tooltip background color */
+                --tooltip-background: #ffface;
+                /* Tooltip text color */
+                --tooltip-text-color: #000;
+                /* Tooltip border color */
+                --tooltip-border-color: #000;
             }
 
             * {
@@ -109,10 +114,10 @@
                 left: 25%;
                 margin-top: 10px;
                 margin-left: -35px;
-                background-color: #d5d5d5;
-                color: #000;
+                background-color: var(--tooltip-background);
+                color: var(--tooltip-text-color);
                 text-align: center;
-                border: 1px solid black;
+                border: 1px solid var(--tooltip-border-color);
                 border-radius: 5px;
                 position: absolute;
                 z-index: 1;
