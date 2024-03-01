@@ -5,9 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     thumbnails.forEach(thumbnail => {
         thumbnail.addEventListener('click', function () {
-            const imagePath = this.src;
-            const imageName = this.alt;
-            window.open(imagePath, imageName, `width=${popupWidth}, height=${popupHeight}`);
+            const imageToView = this.alt;
+            window.open(imageToView, '', `width=${popupWidth}, height=${popupHeight}`);
         });
     });
 });

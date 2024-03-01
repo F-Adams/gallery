@@ -19,7 +19,7 @@
         $maxLinks = 10;                         // Number of pagination links to show
         $imageFolder = "images";                // Folder containing full sized image files
         $thumbFolder = "thumbs";                // Folder containing scaled thumbnail images
-        $thumbPrefix = "thumbnail_";            // Prefix to add to thumbnail image file names
+        $thumbPrefix = "thumbnail_";            // Prefix added to thumbnail image file names
 
         // Get a list of thumbnail files in the folder
         $imageFiles = glob($thumbFolder . '/*.{' . $extensions . '}', GLOB_BRACE);
@@ -88,8 +88,20 @@
         echo '<section class="gallery">';
         for ($i = $firstThumb; $i <= $lastThumb; $i++) {
             $thisImage = $imageFiles[$i];
-            $imageName = basename($thisImage);
-            echo '<img src="' . $thisImage . '" alt="' . $imageName . '" class="thumbnail">';
+
+            // The ALT attribute in the HTML <img> tag is used to send the name and path
+            // of the full sized image to the JavaScript 'window.open' function. This is
+            // probably not an ideal solution but it works!
+            // Determine the filename of this thumbnail
+            $thumbName = basename($thisImage);
+
+            // Strip the prefix that was added to the file name
+            $imageName = str_replace($thumbPrefix, '', $thumbName);
+
+            // Build the path to the fullsize image
+            $imagePath = $imageFolder . '/' . $imageName;
+
+            echo '<img src="' . $thisImage . '" alt="' . $imagePath . '" class="thumbnail">';
         }
         echo '</section><footer>- ' . $thisPage . ' -</footer>';
     ?>
