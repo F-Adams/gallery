@@ -13,7 +13,7 @@
     <body>
 
     <?php
-        // Configurable things
+        // Configurable stuff and things
         $extensions = "jpg,jpeg,png,gif";       // Supported image file extensions
         $thumbsPerPage = 50;                    // Number of thumbnails to display per page
         $maxLinks = 10;                         // Number of pagination links to show
