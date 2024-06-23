@@ -12,3 +12,5 @@ generated thumbnails for all 1480 images but I DO NOT recommend that the script 
 
 The gallery supports PNG, JPG, JPEG, and GIF files.  Images with transparent sections and animated images are NOT supported. They may work
 fine after being resized, but I have not tested it. 
+
+Copyright 2024 F. Adams
